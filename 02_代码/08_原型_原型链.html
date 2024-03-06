@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //明星类
+        function Star(name,age){
+            this.name = name
+            this.age = age
+        }
+
+        //将方法定义在原型对象上,将来创建对象的时候,就不会为对象的方法重复开辟空间
+        Star.prototype.sing = function(){
+            console.log('会唱歌')
+        }
+
+        //创建两个明星对象
+        var ldh = new Star('刘德华',60)
+        ldh.sing()
+
+        var zxy = new Star('张学友',60)
+        zxy.sing()
+
+        //打印对象就可以看到原型链
+        /* 
+            Star {name: '刘德华', age: 60}    --- 当前对象
+                age: 60
+                name: "刘德华"
+
+                [[Prototype]]: Object        --- 当前对象的原型 (当前类的原型对象)
+                    sing: ƒ ()
+                    constructor: ƒ Star(name,age)
+
+                    [[Prototype]]: Object     父类(object)的原型
+                        constructor: ƒ Object()
+        */
+        console.log(ldh)
+
+        //通过对象的原型找到原型对象(因为对象的原型指向原型对象)
+        console.log(ldh.__proto__)
+
+        //原型对象也是一个对象,也有__proto__属性,就是原型对象的原型,指向上一层
+        console.log(ldh.__proto__.__proto__)//打印的是父类object
+
+        //接着往上查找
+        console.log(ldh.__proto__.__proto__.__proto__)//null object是最顶层的,上面就没有了
+
+        //原型链的作用
+        //调用sing()的时候,先到构造函数中查找sing方法
+        //如果没有,就通过ldh.__proto__到原型对象中查找
+        //如果还没有,就通过ldh.__proto__.__proto__到它的上一层找
+        //最终找到Object,如果都没有,就报错
+        ldh.sing()
+    </script>
+</body>
+</html>

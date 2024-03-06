@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //明星类
+        function Star(name,age){
+            this.name = name
+            this.age = age
+        }
+
+        //将方法定义在原型对象上,将来创建对象的时候,就不会为对象的方法重复开辟空间
+        Star.prototype.sing = function(){
+            console.log('会唱歌')
+        }
+
+        //创建两个明星对象
+        var ldh = new Star('刘德华',60)
+        ldh.sing()
+
+        var zxy = new Star('张学友',60)
+        zxy.sing()
+
+       //打印对象
+       console.log(ldh)//[[Prototype]] 这个属性就是对象的原型
+       console.log(ldh.__proto__)//可以通过对象的__proto__属性获取出来
+
+       //验证对象的原型是不是指向原型对象
+       console.log(ldh.__proto__ === Star.prototype) //true
+
+       /* 
+        对象的原型作用
+            为对象查找方法提供了一个机制(先从构造函数中找,如果找不到,再通过对象的原型找到原型对象,到原型对象中找)
+       */
+      ldh.sing()//ldh在调用sing方法的时候,先去构造函数里面找,如果没有的话,就根据对象的原型找到原型对象Star.prototype,然在调用
+
+
+    </script>
+</body>
+</html>

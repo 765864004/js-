@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    用户名: <input type="text" class="username"> <input type="checkbox" class="remember">记住用户名
+
+    <script>
+        /* 
+            分析
+                监听复选框的click/change事件
+                    当它被选中的时候,拿到文本框中的内容(value值)存储到localStorage中
+                    当它取消选中的时候,将数据从localStorage中移除
+
+                如果知道复选框有没有被选中
+                    checked	设置或返回 checkbox 是否应被选中。
+                        设置 checked 属性:
+                            checkboxObject.checked=true|false
+                        返回 checked 属性:
+                            checkboxObject.checked
+        */
+
+        //获取复选框和文本框对象
+        var remember = document.querySelector('.remember')
+        var input = document.querySelector('.username')
+
+        //当页面加载完成之后,首先做一个回显数据的操作
+        //查看localStorage中有没有username这个数据,如果有,就获取数据填充进去,并且自动勾选复选框
+        if(localStorage.getItem('username')){
+            //获取数据填充进去,并且自动勾选复选框
+            input.value = localStorage.getItem('username')
+            remember.checked = true
+        }
+
+        //监听复选框的click/change事件
+        remember.addEventListener('change',function(){
+            //根据复选框的选中状态来判断
+            if(this.checked == true){
+                localStorage.setItem('username',input.value)
+            }else{
+                localStorage.removeItem('username')
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //明星类
+        function Star(name,age){
+            this.name = name
+            this.age = age
+        }
+
+        //将方法定义在原型对象上,将来创建对象的时候,就不会为对象的方法重复开辟空间
+        Star.prototype.sing = function(){
+            console.log('会唱歌')
+        }
+
+        //创建两个明星对象
+        var ldh = new Star('刘德华',60)
+        ldh.sing()
+
+        var zxy = new Star('张学友',60)
+        zxy.sing()
+
+        //验证是否为对象的方法重新开辟空间
+        console.log(ldh.sing === zxy.sing)
+
+        //通过打印构造函数来查看原型对象
+        console.dir(Star)
+        console.log(Star.prototype)
+        console.log(typeof Star.prototype) //object 本质是一个对象,一般称为原型对象
+
+    </script>
+</body>
+</html>

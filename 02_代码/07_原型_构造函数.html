@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //明星类
+        function Star(name,age){
+            this.name = name
+            this.age = age
+        }
+
+        //将方法定义在原型对象上,将来创建对象的时候,就不会为对象的方法重复开辟空间
+        Star.prototype.sing = function(){
+            console.log('会唱歌')
+        }
+
+        //创建两个明星对象
+        var ldh = new Star('刘德华',60)
+        ldh.sing()
+
+        var zxy = new Star('张学友',60)
+        zxy.sing()
+
+        //原型对象(里面有一个constructor属性指向构造函数)
+        console.log(Star.prototype)
+
+        //对象的原型(里面有一个constructor属性指向构造函数)
+        console.log(ldh.__proto__)
+
+        //作用:可以记录该对象引用于哪个构造函数
+        console.log(ldh) //展开对象,可以看到对象的原型中的constructor属性值是 Star(name,age),该对象就是由Star构造函数创建的
+
+        
+    </script>
+</body>
+</html>

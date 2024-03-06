@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>按钮1</button>
+    <button>按钮2</button>
+    <button>按钮3</button>
+    <button>按钮4</button>
+    <button>按钮5</button>
+
+    <script>
+        //获取所有的按钮对象
+        var btns = document.querySelectorAll('button')
+
+        //遍历按钮添加点击事件
+        btns.forEach(function(item){
+            item.onclick = function(){
+                
+                /* 排他思想 */
+                //在设置当前按钮的背景颜色之前,先把所有的背景颜色清除掉
+                btns.forEach(function(btn){
+
+                    console.log(111,this) //this代表window
+
+                    //this.style.background = '' 报错
+
+                })
+
+                console.log(222,this) //this代表点击的那个按钮
+
+                //最后再设置当前点击的按钮的背景颜色
+                item.style.background = 'pink'
+            }
+
+            console.log(333,this) //this代表window
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<head>
+    <meta charset="UTF-8">
+    <title>TodoList</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .myhead {
+            background-color: #0b87ff;
+            text-align: center;
+            padding: 5px 0px 10px 0px;
+            color: aliceblue;
+        }
+
+        .myhead .box {
+            margin-top: 10px;
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .thing {
+            width: 300px;
+            height: 30px;
+            padding: 0 10px;
+            border-radius: 3px;
+            outline: none;
+            border: solid 1px white;
+        }
+
+        .add {
+            display: inline-block;
+            width: 80px;
+            height: 30px;
+            background-color: #eee;
+            color: #0b87ff;
+            line-height: 30px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .add:hover {
+            cursor: pointer;
+            background-color: #fff;
+            color: #ff6700;
+        }
+
+        ul li {
+            list-style: none;
+            position: relative;
+            padding-left: 40px;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        /* 将所有奇数列表项设置为不同的颜色（斑马线）*/
+        ul li:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        /* 光标移入的时候背景变暗 */
+        ul li:hover {
+            cursor: pointer;
+            background-color: #dddddd;
+        }
+
+        /* 单击时，添加背景色并删除文本 */
+        ul li.check {
+            background-color: #888888;
+            text-decoration: line-through;
+            color: #f9f9f9;
+        }
+
+        /* 单击时添加“已选中”标记 */
+        ul li.check::before {
+            content: '';
+            position: absolute;
+            border-color: #fff;
+            border-style: solid;
+            border-width: 0 2px 2px 0;
+            top: 10px;
+            left: 16px;
+
+            transform: rotate(45deg);
+            height: 15px;
+            width: 7px;
+        }
+
+        /* 设置关闭按钮的样式 */
+        .close {
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            padding: 0px 20px;
+            font-size: 16px;
+        }
+
+        .close:hover {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 头部 -->
+    <div class="myhead">
+        <h2>My ToDo List</h2>
+        <div class="box">
+            <input type="text" placeholder="请输入待办事项..." class="thing">
+            <button class="add">添加</button>
+        </div>
+    </div>
+
+    <!-- 待办事项部分，内容动态生成 -->
+    <ul>
+        <!-- <li>吃饭<span class="close">x</span></li>
+        <li>睡觉<span class="close">x</span></li> -->
+    </ul>
+
+</body>
+
+<script>
+    /* 
+        思路
+            1,需要保存两个数据:代办事项的内容,代办事项的选中状态(true和false)
+            2,可以在localStorage中,将代办事项的内容作为key,将选中状态作为value
+            3,为了方便查看效果,可以在localStorage中添加假数据,将来展示在页面中
+
+        步骤
+            一,编写一个方法displayTasks,用于在页面加载完成之后,展示localStorage中的数据
+                1,获取本地存储中的所有键的数组(Object.keys(localStorage))
+                2,遍历数组,拿到里面的内容(key),重新赋值给li
+                3,根据key获取value(选中状态),重新设置li的选中状态
+                4,在li的点击事件中,根据li的选中状态,重新设置localStorage中key对应的value(视图的改变要同步到数据)
+                5,在li的删除事件中,删除localStorage中对应的键值对(视图的改变要同步到数据)
+
+            二,实现添加的逻辑
+                可以直接操作本地localStorage中的数据,来实现视图的改变(数据驱动视图)
+                    1,可以将input中的数据保存到localStorage中
+                    2,重新调用一下displayTasks方法
+                
+    */
+
+    //获取添加按钮
+    var addBtn = document.querySelector('.add')
+
+    //编写一个方法displayTasks,用于在页面加载完成之后,展示localStorage中的数据
+    function displayTasks() {
+        //展示ul列表之前,先将ul中的数据清空
+        document.querySelector('ul').innerHTML = ''
+
+        //获取本地存储中的所有键的数组
+        var keyArr = Object.keys(localStorage)
+        console.log(keyArr)
+
+        //遍历数组,拿到里面的元素(key)
+        keyArr.forEach(function (key) {
+            //创建li元素,将文本框内容填充进去
+            var li = document.createElement('li')
+            li.innerHTML = key
+
+            //根据key获取value(选中状态),重新设置li的选中状态
+            var value = localStorage.getItem(key)
+            console.log(111,typeof value)//string类型
+            if(value == 'true'){
+                li.classList.add('check')
+            }
+
+            //给li元素绑定点击事件,点击的时候切换样式
+            li.addEventListener('click', function () {
+                this.classList.toggle('check')
+
+                //根据li的选中状态,重新设置localStorage中key对应的value(视图的改变要同步到数据)
+                if(this.classList.contains('check')){
+                    localStorage.setItem(key,true)
+                }else{
+                    localStorage.setItem(key,false)   
+                }
+            })
+
+            //给li元素添加删除按钮(创建span标签,绑定删除事件)
+            var span = document.createElement('span')
+            span.innerHTML = 'x'
+            span.classList.add('close')
+            span.addEventListener('click', function (e) {
+                //阻止事件冒泡
+                e.stopPropagation()
+
+                //删除span所在的li
+                //先通过span找到当前li的爹
+                var father = span.parentNode.parentNode
+                //再通过span找到当前的li
+                var son = span.parentNode
+                //调用删除方法
+                father.removeChild(son)
+
+                //删除localStorage中对应的键值对
+                localStorage.removeItem(key)
+            })
+            li.appendChild(span)
+
+            //将li元素添加到ul下面
+            document.querySelector('ul').appendChild(li)
+        })
+
+        
+    }
+
+    displayTasks()
+
+    //给添加按钮绑定事件
+    addBtn.addEventListener('click', function () {
+        //获取文本框中的内容
+        var value = document.querySelector('.thing').value
+
+
+        //可以将input中的数据保存到localStorage中
+        localStorage.setItem(value,false)
+
+        //重新调用一下displayTasks方法
+        displayTasks()
+
+        //输入完后清空文本框中内容
+        document.querySelector('.thing').value = ''
+    })
+</script>
+
+</html>

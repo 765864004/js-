@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /* 
+            改进
+                在outer函数的内部,直接将inner函数以匿名函数的形式返回出去
+        */
+
+        function outer(){
+            var num2 = 20
+
+            // function inner(){
+            //     console.log(num2)
+            // }
+
+            //直接将inner函数返回出去
+            return function (){
+                console.log(num2)
+            }
+        }
+
+        var f = outer()
+
+        f()
+    </script>
+</body>
+</html>

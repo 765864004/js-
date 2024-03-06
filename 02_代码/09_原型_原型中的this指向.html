@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //明星类
+        function Star(name,age){
+            this.name = name
+            this.age = age
+            console.log('构造函数中的this',this)//this指向创建出来的那个对象
+        }
+
+        //将方法定义在原型对象上,将来创建对象的时候,就不会为对象的方法重复开辟空间
+        Star.prototype.sing = function(){
+            console.log('会唱歌')
+            console.log('原型对象中的this',this)//this指向创建出来的那个对象
+        }
+
+        //创建两个明星对象
+        var ldh = new Star('刘德华',60)
+        ldh.sing()
+
+        var zxy = new Star('张学友',60)
+        zxy.sing()
+
+        
+    </script>
+</body>
+</html>

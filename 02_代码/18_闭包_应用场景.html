@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ul>
+        <li>aaa</li>
+        <li>bbb</li>
+        <li>ccc</li>
+    </ul>
+
+    <script>
+        var lis = document.querySelectorAll('li')
+
+        //遍历
+        for (var i = 0; i < lis.length; i++) {
+
+            //不使用定时器,直接打印,不会出问题
+            //console.log(lis[i].innerHTML)
+
+            //使用定时器打印,会报错 undefined错误
+            /* 原因:因为定时器需要1秒钟之后执行,而for循环一开始就执行完了,在执行的时候,不断给i赋值
+            最终i的值由0变成3,定时器里面函数在1秒钟之后才执行,此时lis[i]里面全部变成了lis[3]
+            lis[3]是不存在的,就会报undefined错误 */
+            // setTimeout(function(){
+            //     console.log(lis[i].innerHTML)
+            // },1000)
+
+            //解决方式一:使用forEach,就会避免出现i变量
+
+            //解决方式二:使用立即执行函数:每遍历一次,就直接拿到i的值,立即执行定时器
+                //通过断点,可以看到立即执行函数里面其实形成了一个小闭包
+                //立即执行函数里面的匿名函数是外层函数,定时器里面的函数是内层函数,内层函数访问外层函数里面index(函数参数本质就是函数内部的一个局部变量)
+                //就形成了一个小闭包
+            (function (index) {
+                setTimeout(function () {
+                    console.log(lis[index].innerHTML)
+                }, 1000)
+            })(i)
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //JavasSript 语言的特别之处就在于：函数内部可以直接读取全局变量，但是在函数外部无法读取函数内部的局部变量。
+
+        //在函数内部可以直接读取全局变量
+        var num = 10
+
+        function f1(){
+            console.log(num)
+        }
+
+        f1()
+
+        //在函数外部无法读取函数内部的局部变量
+        function outer(){
+            var num2 = 20
+
+            //只能在outer函数的内部去访问outer里面定义的变量(这里其实已经产生的闭包)
+            function inner(){
+                console.log(num2)
+            }
+            inner()
+        }
+    </script>
+</body>
+</html>

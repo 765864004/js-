@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function getMax(num1,num2){
+            console.log(this)
+            return num1 > num2 ? num1 : num2
+        }
+
+        //方式一:使用传统方式调用
+        var max = getMax(10,20) //this代表window
+        console.log(max)
+
+        //方式二:使用call来调用
+        //格式: 方法名.call(方法的调用者,参数列表)
+        var res = getMax.call(window,100,200)
+        console.log(res)
+
+        //第二种方式就可以实现this指向的改变,只需要对方法的调用者做一个修改
+        var stu = {name:'张三'}
+        var res1 = getMax.call(stu,100,200)
+        console.log(res1)
+    </script>
+</body>
+</html>
